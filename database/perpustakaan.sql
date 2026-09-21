@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 10, 2026 at 04:18 PM
+-- Generation Time: Sep 21, 2026 at 06:59 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -29,12 +29,23 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `anggota` (
   `id_anggota` int(11) NOT NULL,
-  `id_user` int(5) DEFAULT NULL,
-  `nama` varchar(100) NOT NULL,
-  `kelas` varchar(20) NOT NULL,
-  `alamat` text DEFAULT NULL,
-  `no_hp` varchar(20) DEFAULT NULL
+  `username` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `nisn` int(9) NOT NULL,
+  `kelas` varchar(10) NOT NULL,
+  `role` enum('admin','user') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `anggota`
+--
+
+INSERT INTO `anggota` (`id_anggota`, `username`, `password`, `email`, `nisn`, `kelas`, `role`) VALUES
+(1, 'budi', '$2y$10$wfC/AZttT022p9Q22dvHfOT7vLWLS4sgySZ.eEPuMKx.Rj5ENhJd6', 'hasu@gmail.com', 862362, '', 'user'),
+(2, 'did', '$2y$10$Lq9J8FSkG6DIjpT1OLkPbulERLuZV3ynIj.Q5TPonStWtydP1zes.', 'hugadgf@gmail.com', 8623, '125v', 'user'),
+(3, 'mulyono', '$2y$10$d42F.NoE4ndff8avdEtxkeYSGvUPvIjCue/8Xkm2pOvlzo5Lln4za', 'ans33@gmail.com', 847574, '12', 'user'),
+(4, 'Heru', '$2y$10$CXg72lJnZbi4QgGx84GdteFj0lSaujXAb5FlklCpbbm.L0fWiIv6S', 'haji11@gmail.com', 823636, '12', 'user');
 
 -- --------------------------------------------------------
 
@@ -46,8 +57,8 @@ CREATE TABLE `buku` (
   `id_buku` int(11) NOT NULL,
   `judul` varchar(150) NOT NULL,
   `penulis` varchar(100) NOT NULL,
-  `penerbit` varchar(100) DEFAULT NULL,
-  `tahun_terbit` year(4) DEFAULT NULL,
+  `penerbit` varchar(100) NOT NULL,
+  `tahun_terbit` year(4) NOT NULL,
   `stok` int(5) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -66,28 +77,6 @@ CREATE TABLE `transaksi` (
   `status` enum('dipinjam','dikembalikan') NOT NULL DEFAULT 'dipinjam'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `user`
---
-
-CREATE TABLE `user` (
-  `id_user` int(5) NOT NULL,
-  `username` varchar(50) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `gmail` varchar(50) NOT NULL,
-  `nisn` int(9) NOT NULL,
-  `role` enum('admin','user') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `user`
---
-
-INSERT INTO `user` (`id_user`, `username`, `password`, `gmail`, `nisn`, `role`) VALUES
-(1, 'user', '$2y$10$84Xv1oZVaUtW.awQH6ZcrOKfJz9TPkdf4pKlq7nk3x1uICMyg8Pze', 'halo@gmail.com', 84665, 'user');
-
 --
 -- Indexes for dumped tables
 --
@@ -97,7 +86,9 @@ INSERT INTO `user` (`id_user`, `username`, `password`, `gmail`, `nisn`, `role`) 
 --
 ALTER TABLE `anggota`
   ADD PRIMARY KEY (`id_anggota`),
-  ADD UNIQUE KEY `id_user` (`id_user`);
+  ADD UNIQUE KEY `username` (`username`),
+  ADD UNIQUE KEY `email` (`email`),
+  ADD UNIQUE KEY `nisn` (`nisn`);
 
 --
 -- Indexes for table `buku`
@@ -110,15 +101,8 @@ ALTER TABLE `buku`
 --
 ALTER TABLE `transaksi`
   ADD PRIMARY KEY (`id_transaksi`),
-  ADD KEY `id_anggota` (`id_anggota`),
+  ADD KEY `fk_transaksi_anggota` (`id_anggota`),
   ADD KEY `fk_transaksi_buku` (`id_buku`);
-
---
--- Indexes for table `user`
---
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`id_user`),
-  ADD UNIQUE KEY `username` (`username`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -128,7 +112,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `anggota`
 --
 ALTER TABLE `anggota`
-  MODIFY `id_anggota` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_anggota` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `buku`
@@ -143,28 +127,15 @@ ALTER TABLE `transaksi`
   MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `user`
---
-ALTER TABLE `user`
-  MODIFY `id_user` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
 -- Constraints for dumped tables
 --
-
---
--- Constraints for table `anggota`
---
-ALTER TABLE `anggota`
-  ADD CONSTRAINT `anggota_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  ADD CONSTRAINT `fk_transaksi_buku` FOREIGN KEY (`id_buku`) REFERENCES `buku` (`id_buku`),
-  ADD CONSTRAINT `transaksi_ibfk_1` FOREIGN KEY (`id_anggota`) REFERENCES `anggota` (`id_anggota`) ON DELETE CASCADE,
-  ADD CONSTRAINT `transaksi_ibfk_2` FOREIGN KEY (`id_buku`) REFERENCES `buku` (`id_buku`);
+  ADD CONSTRAINT `fk_transaksi_anggota` FOREIGN KEY (`id_anggota`) REFERENCES `anggota` (`id_anggota`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_transaksi_buku` FOREIGN KEY (`id_buku`) REFERENCES `buku` (`id_buku`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
