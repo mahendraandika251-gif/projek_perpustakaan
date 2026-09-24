@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 21, 2026 at 06:59 PM
+-- Generation Time: Sep 24, 2026 at 03:56 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -42,10 +42,8 @@ CREATE TABLE `anggota` (
 --
 
 INSERT INTO `anggota` (`id_anggota`, `username`, `password`, `email`, `nisn`, `kelas`, `role`) VALUES
-(1, 'budi', '$2y$10$wfC/AZttT022p9Q22dvHfOT7vLWLS4sgySZ.eEPuMKx.Rj5ENhJd6', 'hasu@gmail.com', 862362, '', 'user'),
-(2, 'did', '$2y$10$Lq9J8FSkG6DIjpT1OLkPbulERLuZV3ynIj.Q5TPonStWtydP1zes.', 'hugadgf@gmail.com', 8623, '125v', 'user'),
-(3, 'mulyono', '$2y$10$d42F.NoE4ndff8avdEtxkeYSGvUPvIjCue/8Xkm2pOvlzo5Lln4za', 'ans33@gmail.com', 847574, '12', 'user'),
-(4, 'Heru', '$2y$10$CXg72lJnZbi4QgGx84GdteFj0lSaujXAb5FlklCpbbm.L0fWiIv6S', 'haji11@gmail.com', 823636, '12', 'user');
+(2, 'adel', '$2y$10$Lq9J8FSkG6DIjpT1OLkPbulERLuZV3ynIj.Q5TPonStWtydP1zes.', 'hugadgf@gmail.com', 0, '125v', 'user'),
+(5, 'mulyono', '$2y$10$p.pnAa3oBhfVLTe3KB.Qv.PFL1jSl.k4nbnVVZsuclsHqeZLkQE/q', 'mulyono@gmail.com', 1111, '12', 'admin');
 
 -- --------------------------------------------------------
 
@@ -59,8 +57,19 @@ CREATE TABLE `buku` (
   `penulis` varchar(100) NOT NULL,
   `penerbit` varchar(100) NOT NULL,
   `tahun_terbit` year(4) NOT NULL,
-  `stok` int(5) NOT NULL DEFAULT 0
+  `kategori` varchar(20) NOT NULL,
+  `stok` int(5) NOT NULL,
+  `foto` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `buku`
+--
+
+INSERT INTO `buku` (`id_buku`, `judul`, `penulis`, `penerbit`, `tahun_terbit`, `kategori`, `stok`, `foto`) VALUES
+(1, 'cerita', 'juji', 'juji', '2020', 'cerita', 20, ''),
+(2, 'budi', 'goli', 'ghghg', '2014', 'Edukasi', 12, '1790186595_sleeping_bag_1.jpeg'),
+(3, 'hayu', 'yuh', 'tg', '2014', 'Non-Fiksi', 12, '1790187652_matras_5.jpeg');
 
 -- --------------------------------------------------------
 
@@ -112,13 +121,13 @@ ALTER TABLE `transaksi`
 -- AUTO_INCREMENT for table `anggota`
 --
 ALTER TABLE `anggota`
-  MODIFY `id_anggota` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_anggota` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `buku`
 --
 ALTER TABLE `buku`
-  MODIFY `id_buku` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_buku` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `transaksi`

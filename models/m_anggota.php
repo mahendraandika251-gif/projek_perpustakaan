@@ -4,14 +4,19 @@ include_once 'm_koneksi.php';
 
 class m_anggota {
 
-    // Fungsi login
-    function login($username)
-    {
-        $db = new koneksi();
-        $koneksi = $db->koneksi;
+    private $koneksi;
 
-        $sql = "SELECT * FROM user WHERE username = ? OR email = ?";
-        $stmt = $koneksi->prepare($sql);
+    // Constructor untuk inisialisasi koneksi sekali pakai
+    public function __construct() {
+        $db = new koneksi();
+        $this->koneksi = $db->koneksi;
+    }
+
+    // Fungsi login
+    public function login($username)
+    {
+        $sql = "SELECT * FROM anggota WHERE username = ? OR email = ?";
+        $stmt = $this->koneksi->prepare($sql);
         $stmt->bind_param("ss", $username, $username);
         $stmt->execute();
 
@@ -25,12 +30,10 @@ class m_anggota {
     }
 
     // Fungsi tampil data
-    function tampil_data()
+    public function tampil_data()
     {
-        $db = new koneksi();
-        $koneksi = $db->koneksi;
-        $sql = "SELECT * FROM user";
-        $query = mysqli_query($koneksi, $sql);
+        $sql = "SELECT * FROM anggota";
+        $query = mysqli_query($this->koneksi, $sql);
 
         $result = [];
         if ($query && mysqli_num_rows($query) > 0) {
@@ -43,42 +46,31 @@ class m_anggota {
         }
     }
 
-    // Fungsi edit (Termasuk update NISN)
-    function edit($id_user, $username, $email, $nisn, $role)
-    {
-        $db = new koneksi();
-        $koneksi = $db->koneksi;
-        $sql = "UPDATE user SET username = ?, email = ?, nisn = ?, role = ? WHERE id_user = ?";
-        
-        $stmt = $koneksi->prepare($sql);
-        $stmt->bind_param("ssssi", $username, $email, $nisn, $role, $id_user);
+    // Fungsi edit data berdasarkan ID
+    public function edit($id_anggota, $username, $email, $nisn, $role) {
+        $stmt = $this->koneksi->prepare("UPDATE anggota SET username = ?, email = ?, nisn = ?, role = ? WHERE id_anggota = ?");
+        $stmt->bind_param("ssssi", $username, $email, $nisn, $role, $id_anggota);
         return $stmt->execute();
     }
 
-    // Fungsi tambah data (Termasuk simpan NISN & otomatis HASH Password)
-    function tambah_data($username, $email, $password, $nisn, $role)
+    // Fungsi tambah data (Otomatis HASH Password)
+    public function tambah_data($username, $email, $password, $nisn, $role)
     {
-        $db = new koneksi();
-        $koneksi = $db->koneksi;
-
-        // Keamanan: Otomatis hash password sebelum masuk ke database
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-        $sql = "INSERT INTO user (username, email, password, nisn, role) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO anggota (username, email, password, nisn, role) VALUES (?, ?, ?, ?, ?)";
         
-        $stmt = $koneksi->prepare($sql);
-        $stmt->bind_param("sssss", $username, $email, $kelas, $hashed_password, $nisn, $role);
+        $stmt = $this->koneksi->prepare($sql);
+        $stmt->bind_param("sssss", $username, $email, $hashed_password, $nisn, $role);
         return $stmt->execute();
     }
 
     // Fungsi hapus data
-    function hapus_data($id)
+    public function hapus_data($id)
     {
-        $db = new koneksi();
-        $koneksi = $db->koneksi;
         $sql = "DELETE FROM anggota WHERE id_anggota = ?";
         
-        $stmt = $koneksi->prepare($sql);
+        $stmt = $this->koneksi->prepare($sql);
         $stmt->bind_param("i", $id);
         return $stmt->execute();
     }

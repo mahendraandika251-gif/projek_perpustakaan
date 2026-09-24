@@ -183,7 +183,7 @@ if ($result && $result->num_rows > 0) {
                                                class="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all">
                                                 <i class="fa-solid fa-pen-to-square"></i>
                                             </a>
-                                            <a href="hapus_anggota.php?id=<?= $row['id_anggota'] ?>" 
+                                            <a href="../../controller/c_hapus_anggota.php?id=<?= $row['id_anggota'] ?>" 
                                                title="Hapus Data" 
                                                onclick="return confirm('Apakah Anda yakin ingin menghapus anggota <?= htmlspecialchars($row['username']) ?>?');"
                                                class="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all">
