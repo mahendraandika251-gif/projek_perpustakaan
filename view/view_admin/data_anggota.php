@@ -13,6 +13,8 @@ if (!$db) {
 $sql = "SELECT id_anggota, username, email, nisn, kelas, role FROM anggota ORDER BY id_anggota ASC";
 $result = $db->query($sql);
 
+
+
 // Hitung statistik ringkas jika query berhasil
 $total_anggota = 0;
 $total_admin = 0;

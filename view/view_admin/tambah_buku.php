@@ -1,6 +1,6 @@
 <?php
 // 1. Mengambil file koneksi database
-include_once 'm_koneksi.php';
+include_once '../../models/m_koneksi.php';
 
 // Menangkap objek koneksi asli dari m_koneksi.php
 $koneksi_raw = isset($koneksi) ? $koneksi : (isset($conn) ? $conn : (isset($db) ? $db : null));
@@ -12,8 +12,6 @@ if (is_object($koneksi_db) && !($koneksi_db instanceof mysqli)) {
         $koneksi_db = $koneksi_db->koneksi;
     } elseif (isset($koneksi_db->conn) && ($koneksi_db->conn instanceof mysqli)) {
         $koneksi_db = $koneksi_db->conn;
-    } elseif (isset($koneksi_db->db) && ($koneksi_db->db instanceof mysqli)) {
-        $koneksi_db = $koneksi_db->db;
     } elseif (isset($koneksi_db->link) && ($koneksi_db->link instanceof mysqli)) {
         $koneksi_db = $koneksi_db->link;
     } elseif (method_exists($koneksi_db, 'getKoneksi') && ($koneksi_db->getKoneksi() instanceof mysqli)) {
@@ -79,16 +77,20 @@ if (isset($_POST['tambah_buku'])) {
         if (in_array($ekstensi, $ekstensi_diizinkan) === true) {
             // Cek ukuran file (maksimal 2MB)
             if ($ukuran_foto < 2048000) {
-                // Buat folder 'uploads' jika belum ada
-                if (!is_dir('uploads')) {
-                    mkdir('uploads', 0777, true);
+                
+                // Set lokasi folder tujuan ke asset/img
+                $folder_tujuan = '../../asset/img/';
+
+                // Buat folder asset/img otomatis jika belum ada
+                if (!is_dir($folder_tujuan)) {
+                    mkdir($folder_tujuan, 0777, true);
                 }
 
                 // Generasi nama file unik agar tidak bentrok
                 $nama_foto_baru = time() . '_' . preg_replace("/[^a-zA-Z0-9\.]/", "_", $nama_foto);
-                $target_dir = 'uploads/' . $nama_foto_baru;
+                $target_dir     = $folder_tujuan . $nama_foto_baru;
 
-                // Pindahkan file ke folder uploads
+                // Pindahkan file foto ke folder asset/img
                 move_uploaded_file($tmp_foto, $target_dir);
             } else {
                 $pesan = "Ukuran file foto terlalu besar! Maksimal 2MB.";

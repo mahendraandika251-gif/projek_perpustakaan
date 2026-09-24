@@ -26,24 +26,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $pesan = "Username dan Password wajib diisi!";
         $tipe_pesan = "error";
     } else {
-        // Enkripsi Password (rekomendasi password_hash)
-        $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+        try {
+            // Cek apakah Email sudah terdaftar (jika diisi)
+            if (!empty($email)) {
+                $check_email = $db->prepare("SELECT id_anggota FROM anggota WHERE email = ?");
+                if ($check_email) {
+                    $check_email->bind_param("s", $email);
+                    $check_email->execute();
+                    $check_email->store_result();
+                    if ($check_email->num_rows > 0) {
+                        throw new Exception("Email '$email' sudah terdaftar!");
+                    }
+                    $check_email->close();
+                }
+            }
 
-        // Prepared statement untuk keamanan dari SQL Injection
-        $stmt = $db->prepare("INSERT INTO anggota (username, email, nisn, kelas, role, password) VALUES (?, ?, ?, ?, ?, ?)");
-        if ($stmt) {
+            // Enkripsi Password (rekomendasi password_hash)
+            $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+
+            // Prepared statement untuk keamanan dari SQL Injection
+            $stmt = $db->prepare("INSERT INTO anggota (username, email, nisn, kelas, role, password) VALUES (?, ?, ?, ?, ?, ?)");
+            if (!$stmt) {
+                throw new Exception("Error Query Database: " . $db->error);
+            }
+
             $stmt->bind_param("ssssss", $username, $email, $nisn, $kelas, $role, $hashed_password);
+            
             if ($stmt->execute()) {
                 $pesan = "Anggota baru berhasil ditambahkan!";
                 $tipe_pesan = "sukses";
-            } else {
-                $pesan = "Gagal menyimpan data: " . $stmt->error;
-                $tipe_pesan = "error";
             }
             $stmt->close();
-        } else {
-            $pesan = "Error Query Database: " . $db->error;
-            $tipe_pesan = "error";
+
+        } catch (mysqli_sql_exception $e) {
+            // Menangkap error duplikasi dari MySQL (Error Code 1062)
+            if ($e->getCode() === 1062) {
+                $pesan = "Gagal menyimpan data: Email, NISN, atau Username sudah terdaftar!";
+            } else {
+                $pesan = "Terjadi kesalahan: " . $e->getMessage();
+            }
+            $tipe_pesan = "user";
+        } catch (Exception $e) {
+            // Menangkap error validasi manual
+            $pesan = $e->getMessage();
+            $tipe_pesan = "atau email sudah terdaftar";
         }
     }
 }
