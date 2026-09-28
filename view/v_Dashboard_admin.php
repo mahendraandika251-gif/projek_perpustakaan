@@ -1,165 +1,264 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PustakaCare - Dashboard Perpustakaan Modern</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- Chart.js for Analytics -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        sidebar: {
-                            DEFAULT: '#141226',
-                            hover: '#201c38',
-                            active: '#f3f4f6',
-                        },
-                        brand: {
-                            purple: '#8b5cf6',
-                            darkPurple: '#7c3aed',
-                            lightPurple: '#f3e8ff',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #EFEFF4;
-        }
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 9999px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Perpustakaan</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      display: flex;
+      height: 100vh;
+      background-color: #ededf0;
+      color: #333;
+    }
+
+    /* Sidebar Styling */
+    .sidebar {
+      width: 250px;
+      background-color: #0f0c20;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 24px 16px;
+      flex-shrink: 0;
+    }
+
+    /* User Profile Section */
+    .profile-section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 32px;
+      padding: 0 8px;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #4a4e69;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      position: relative;
+    }
+
+    .online-badge {
+      width: 10px;
+      height: 10px;
+      background-color: #2ec4b6;
+      border-radius: 50%;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      border: 2px solid #0f0c20;
+    }
+
+    .user-details {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .user-name {
+      font-weight: 600;
+      font-size: 14px;
+      color: #ffffff;
+    }
+
+    .user-role {
+      font-size: 12px;
+      color: #8d8d99;
+    }
+
+    .purple-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #8b5cf6;
+      border-radius: 50%;
+    }
+
+    /* Navigation Styling */
+    .nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 14px;
+      color: #a0a0b0;
+      text-decoration: none; /* Menghilangkan garis bawah a href */
+      transition: all 0.2s ease;
+      font-weight: 500;
+    }
+
+    .nav-item:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+      color: #ffffff;
+    }
+
+    .nav-item.active {
+      background-color: #1a1633;
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    /* Status Indicator Dots */
+    .dot-pink {
+      width: 8px;
+      height: 8px;
+      background-color: #ec4899;
+      border-radius: 50%;
+    }
+
+    .dot-yellow {
+      width: 8px;
+      height: 8px;
+      background-color: #eab308;
+      border-radius: 50%;
+    }
+
+    /* Bottom Menu Styling */
+    .bottom-menu {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .logout-item {
+      color: #ef4444;
+    }
+
+    .logout-item:hover {
+      background-color: rgba(239, 68, 68, 0.1);
+      color: #f87171;
+    }
+
+    /* Main Content Styling */
+    .main-content {
+      flex: 1;
+      padding: 40px;
+      overflow-y: auto;
+    }
+
+    .content-page {
+      display: none;
+    }
+
+    .content-page.active {
+      display: block;
+    }
+
+    .content-page h1 {
+      font-size: 24px;
+      font-weight: 600;
+      color: #1f2937;
+    }
+  </style>
 </head>
-<body class="h-screen w-screen overflow-hidden flex bg-[#ECECEE]">
+<body>
 
-    <!-- Sidebar Navigation -->
-    <aside id="sidebar" class="w-72 bg-[#141226] text-gray-300 flex flex-col justify-between p-5 select-none transition-all duration-300 z-30 flex-shrink-0">
-        <!-- Sidebar Header / Profile -->
-        <div>
-            <div class="flex items-center justify-between mb-8 px-2 pt-2">
-                <div class="flex items-center gap-3 cursor-pointer group">
-                    <div class="relative">
-                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" 
-                             alt="Juliana Silva" 
-                             class="w-11 h-11 rounded-full object-cover border-2 border-brand-purple/50 group-hover:border-brand-purple transition">
-                        <span class="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-[#141226] rounded-full"></span>
-                    </div>
-                    <div class="overflow-hidden">
-                        <h4 class="font-semibold text-white text-sm leading-tight truncate group-hover:text-brand-purple transition">Juliana Silva</h4>
-                        <p class="text-xs text-gray-400 truncate">@pustakawan</p>
-                    </div>
-                </div>
-                <div class="flex items-center gap-1">
-                    <button id="notifBtn" class="relative p-2 text-gray-400 hover:text-white rounded-lg hover:bg-white/5 transition">
-                        <i data-lucide="bell" class="w-5 h-5"></i>
-                        <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-purple-500 rounded-full animate-ping"></span>
-                        <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-purple-500 rounded-full"></span>
-                    </button>
-                    <button class="text-gray-400 hover:text-white p-1">
-                        <i data-lucide="chevron-down" class="w-4 h-4"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Navigation Links -->
-            <nav class="space-y-2">
-                <!-- Home / Beranda -->
-                <div class="relative group">
-                    <div id="home-indicator" class="absolute left-[-20px] top-1/2 -translate-y-1/2 w-1.5 h-8 bg-white rounded-r-full"></div>
-                    <a href="#" onclick="switchTab('home')" id="nav-home" 
-                       class="nav-item flex items-center gap-4 px-4 py-3.5 rounded-2xl font-semibold bg-white text-[#8b5cf6] shadow-lg shadow-purple-900/20 transition-all">
-                        <i data-lucide="home" class="w-5 h-5"></i>
-                        <span>Beranda Utama</span>
-                    </a>
-                </div>
-
-                <!-- Buku & Katalog -->
-                <a href="#" onclick="switchTab('catalog')" id="nav-catalog" 
-                   class="nav-item flex items-center gap-4 px-4 py-3.5 rounded-2xl font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-all">
-                    <i data-lucide="book-open" class="w-5 h-5"></i>
-                    <span>Katalog Buku</span>
-                    <span class="ml-auto text-xs bg-purple-500/20 text-purple-300 font-semibold px-2 py-0.5 rounded-full">14k</span>
-                </a>
-
-                <!-- Peminjaman & Pengembalian -->
-                <a href="#" onclick="switchTab('loans')" id="nav-loans" 
-                   class="nav-item flex items-center gap-4 px-4 py-3.5 rounded-2xl font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-all">
-                    <i data-lucide="shopping-bag" class="w-5 h-5"></i>
-                    <span>Peminjaman</span>
-                    <span class="ml-auto w-2 h-2 rounded-full bg-purple-400"></span>
-                </a>
-
-                <!-- Statistik -->
-                <a href="#" onclick="switchTab('stats')" id="nav-stats" 
-                   class="nav-item flex items-center gap-4 px-4 py-3.5 rounded-2xl font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-all">
-                    <i data-lucide="line-chart" class="w-5 h-5"></i>
-                    <span>Statistik</span>
-                    <span class="ml-auto w-2 h-2 rounded-full bg-pink-400"></span>
-                </a>
-
-                <!-- Kategori & Rak -->
-                <a href="#" onclick="switchTab('categories')" id="nav-categories" 
-                   class="nav-item flex items-center gap-4 px-4 py-3.5 rounded-2xl font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-all">
-                    <i data-lucide="layout-grid" class="w-5 h-5"></i>
-                    <span>Kategori Rak</span>
-                </a>
-
-                <!-- Program & Promo Baca -->
-                <a href="#" onclick="switchTab('promos')" id="nav-promos" 
-                   class="nav-item flex items-center gap-4 px-4 py-3.5 rounded-2xl font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-all">
-                    <i data-lucide="tag" class="w-5 h-5"></i>
-                    <span>Program Baca</span>
-                    <span class="ml-auto w-2.5 h-2.5 rounded-full bg-amber-400"></span>
-                </a>
-
-                <!-- Anggota Perpustakaan -->
-                <a href="view_admin" onclick="switchTab('members')" id="nav-members" 
-                   class="nav-item flex items-center gap-4 px-4 py-3.5 rounded-2xl font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-all">
-                    <i data-lucide="user" class="w-5 h-5"></i>
-                    <span>Anggota</span>
-                </a>
-            </nav>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div>
+      <!-- User Profile -->
+      <div class="profile-section">
+        <div class="user-info">
+          <div class="avatar">
+            JS
+            <span class="online-badge"></span>
+          </div>
+          <div class="user-details">
+            <span class="user-name">Juliana Silva</span>
+            <span class="user-role">@pustakawan</span>
+          </div>
         </div>
+        <span class="purple-dot"></span>
+      </div>
 
-        <!-- Sidebar Footer -->
-        <div class="pt-6 border-t border-white/10 space-y-2">
-            <a href="#" onclick="openModal('settingsModal')" class="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition">
-                <i data-lucide="settings" class="w-4 h-4"></i>
-                <span>Pengaturan</span>
-            </a>
-            <a href="#" onclick="showToast('Anda berhasil keluar dari sistem.', 'info')" class="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-xl transition">
-                <i data-lucide="log-out" class="w-4 h-4"></i>
-                <span>Keluar (Log Out)</span>
-            </a>
-        </div>
-    </aside>
+      <!-- Navigation Menu dengan a href -->
+      <nav class="nav-list">
+        <a href="view_admin/data_anggota.php" class="nav-item" onclick="switchTab('data-anggota', this)">
+          <span>Data Anggota</span>
+        </a>
+        <a href="view_admin/dashboard_buku.php" class="nav-item active" onclick="switchTab('data-buku', this)">
+          <span>Data Buku</span>
+        </a>
+        <a href="#statistik" class="nav-item" onclick="switchTab('statistik', this)">
+          <span>Statistik</span>
+          <span class="dot-pink"></span>
+        </a>
+        <a href="#kategori-rak" class="nav-item" onclick="switchTab('kategori-rak', this)">
+          <span>Kategori Rak</span>
+        </a>
+        <a href="#program-baca" class="nav-item" onclick="switchTab('program-baca', this)">
+          <span>Program Baca</span>
+          <span class="dot-yellow"></span>
+        </a>
+        <a href="#anggota" class="nav-item" onclick="switchTab('anggota', this)">
+          <span>Anggota</span>
+        </a>
+      </nav>
+    </div>
 
-   
+    <!-- Bottom Menu dengan a href -->
+    <div class="bottom-menu">
+      <a href="#pengaturan" class="nav-item" onclick="switchTab('pengaturan', this)">
+        <span>Pengaturan</span>
+      </a>
+      <a href="#logout" class="nav-item logout-item" onclick="switchTab('logout', this)">
+        <span>Keluar (Log Out)</span>
+      </a>
+    </div>
+  </aside>
+
+  
+
+  <!-- JavaScript untuk Switch Halaman & URL Hash -->
+  <script>
+    function switchTab(pageId, element) {
+      // Sembunyikan semua konten
+      const pages = document.querySelectorAll('.content-page');
+      pages.forEach(page => page.classList.remove('active'));
+
+      // Tampilkan konten yang dipilih
+      const selectedPage = document.getElementById(pageId);
+      if (selectedPage) {
+        selectedPage.classList.add('active');
+      }
+
+      // Hapus kelas 'active' dari semua tombol navigasi
+      const navItems = document.querySelectorAll('.nav-item');
+      navItems.forEach(item => item.classList.remove('active'));
+
+      // Tambahkan kelas 'active' ke tombol a href yang diklik
+      if (element) {
+        element.classList.add('active');
+      }
+    }
+  </script>
+</body>
+</html>

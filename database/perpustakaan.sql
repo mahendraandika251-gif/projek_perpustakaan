@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 24, 2026 at 03:56 AM
+-- Generation Time: Sep 28, 2026 at 05:58 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -43,7 +43,10 @@ CREATE TABLE `anggota` (
 
 INSERT INTO `anggota` (`id_anggota`, `username`, `password`, `email`, `nisn`, `kelas`, `role`) VALUES
 (2, 'adel', '$2y$10$Lq9J8FSkG6DIjpT1OLkPbulERLuZV3ynIj.Q5TPonStWtydP1zes.', 'hugadgf@gmail.com', 0, '125v', 'user'),
-(5, 'mulyono', '$2y$10$p.pnAa3oBhfVLTe3KB.Qv.PFL1jSl.k4nbnVVZsuclsHqeZLkQE/q', 'mulyono@gmail.com', 1111, '12', 'admin');
+(5, 'mulyono', '$2y$10$p.pnAa3oBhfVLTe3KB.Qv.PFL1jSl.k4nbnVVZsuclsHqeZLkQE/q', 'mulyono@gmail.com', 1111, '12', 'admin'),
+(12, 'udin', '$2y$10$bgOv.S25gSUbz4ItCOBbPeWXr1a/O8f9dq7yteIlF6/C3fe6sMPaS', 'ans33@gmail.com', 87373, '12 rpl', 'admin'),
+(15, 'yaya', '$2y$10$2m8SSqFkSGphPsFKlIXHVeuvau4Orv7tVYXFlV/SVOzPRnyODSTMq', 'yaya@gmail.com', 816161, '12 rpl', 'admin'),
+(17, 'bayu', '$2y$10$7ngvSz6xBzm7Bi4dmC9w5eRXMAtePZ/MXDE4iogB9Zb1d7s4BLvMi', 'bayu@gmail.com', 86161616, '12 rpl', 'user');
 
 -- --------------------------------------------------------
 
@@ -69,7 +72,10 @@ CREATE TABLE `buku` (
 INSERT INTO `buku` (`id_buku`, `judul`, `penulis`, `penerbit`, `tahun_terbit`, `kategori`, `stok`, `foto`) VALUES
 (1, 'cerita', 'juji', 'juji', '2020', 'cerita', 20, ''),
 (2, 'budi', 'goli', 'ghghg', '2014', 'Edukasi', 12, '1790186595_sleeping_bag_1.jpeg'),
-(3, 'hayu', 'yuh', 'tg', '2014', 'Non-Fiksi', 12, '1790187652_matras_5.jpeg');
+(3, 'hayu', 'yuh', 'tg', '2014', 'Non-Fiksi', 12, '1790187652_matras_5.jpeg'),
+(4, 'gigig', 'hfhfhf', 'bhchc', '2014', 'Edukasi', 12, 'default.jpg'),
+(5, 'huhu', 'ddhhdhdhd', 'hdhdhd', '2022', 'Sejarah', 677, '1790217204_Screenshot_2026_05_19_232120.png'),
+(10, 'ridvi gaming', 'ddhhdhdhd', 'anies', '2000', 'Edukasi', 2000, '');
 
 -- --------------------------------------------------------
 
@@ -121,13 +127,13 @@ ALTER TABLE `transaksi`
 -- AUTO_INCREMENT for table `anggota`
 --
 ALTER TABLE `anggota`
-  MODIFY `id_anggota` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_anggota` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `buku`
 --
 ALTER TABLE `buku`
-  MODIFY `id_buku` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_buku` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `transaksi`
