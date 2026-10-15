@@ -19,10 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } elseif ($result['role'] === 'user') {
             header("location: ../view/view_user/v_Dashboard_user.php");
             exit;
-        } elseif ($result['role'] === 'petugas') {
-            header("location: ../view/v_Dashboard_petugas.php");
-            exit;
-        }
+        } 
     } else {
         echo "<script>alert('Username atau Password Salah'); window.location='../index.php'</script>";
     }

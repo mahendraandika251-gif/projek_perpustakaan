@@ -207,8 +207,8 @@
         <a href="view_admin/dashboard_buku.php" class="nav-item active" onclick="switchTab('data-buku', this)">
           <span>Data Buku</span>
         </a>
-        <a href="#statistik" class="nav-item" onclick="switchTab('statistik', this)">
-          <span>Statistik</span>
+        <a href="view_admin/transaksi.php" class="nav-item" onclick="switchTab('statistik', this)">
+          <span>transaksi</span>
           <span class="dot-pink"></span>
         </a>
         <a href="#kategori-rak" class="nav-item" onclick="switchTab('kategori-rak', this)">
@@ -229,7 +229,7 @@
       <a href="#pengaturan" class="nav-item" onclick="switchTab('pengaturan', this)">
         <span>Pengaturan</span>
       </a>
-      <a href="#logout" class="nav-item logout-item" onclick="switchTab('logout', this)">
+      <a href="../controller/logout.php" class="nav-item logout-item" onclick="switchTab('logout', this)">
         <span>Keluar (Log Out)</span>
       </a>
     </div>

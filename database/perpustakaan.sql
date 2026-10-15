@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 28, 2026 at 05:58 PM
+-- Generation Time: Oct 15, 2026 at 05:46 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -72,10 +72,10 @@ CREATE TABLE `buku` (
 INSERT INTO `buku` (`id_buku`, `judul`, `penulis`, `penerbit`, `tahun_terbit`, `kategori`, `stok`, `foto`) VALUES
 (1, 'cerita', 'juji', 'juji', '2020', 'cerita', 20, ''),
 (2, 'budi', 'goli', 'ghghg', '2014', 'Edukasi', 12, '1790186595_sleeping_bag_1.jpeg'),
-(3, 'hayu', 'yuh', 'tg', '2014', 'Non-Fiksi', 12, '1790187652_matras_5.jpeg'),
-(4, 'gigig', 'hfhfhf', 'bhchc', '2014', 'Edukasi', 12, 'default.jpg'),
+(3, 'hayu', 'yuh', 'tg', '2014', 'Non-Fiksi', 11, '1790187652_matras_5.jpeg'),
+(4, 'gigig', 'hfhfhf', 'bhchc', '2014', 'Edukasi', 2, 'default.jpg'),
 (5, 'huhu', 'ddhhdhdhd', 'hdhdhd', '2022', 'Sejarah', 677, '1790217204_Screenshot_2026_05_19_232120.png'),
-(10, 'ridvi gaming', 'ddhhdhdhd', 'anies', '2000', 'Edukasi', 2000, '');
+(10, 'ridvi gaming', 'ddhhdhdhd', 'anies', '2000', 'Edukasi', 1994, '');
 
 -- --------------------------------------------------------
 
@@ -89,8 +89,27 @@ CREATE TABLE `transaksi` (
   `id_buku` int(11) NOT NULL,
   `tanggal_pinjam` date NOT NULL,
   `tanggal_kembali` date DEFAULT NULL,
-  `status` enum('dipinjam','dikembalikan') NOT NULL DEFAULT 'dipinjam'
+  `status` enum('menunggu_persetujuan_pinjam','dipinjam','menunggu_persetujuan_kembali','dikembalikan') NOT NULL DEFAULT 'menunggu_persetujuan_pinjam',
+  `jumlah` int(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `transaksi`
+--
+
+INSERT INTO `transaksi` (`id_transaksi`, `id_anggota`, `id_buku`, `tanggal_pinjam`, `tanggal_kembali`, `status`, `jumlah`) VALUES
+(1, 15, 10, '2026-10-01', '2026-10-14', '', 0),
+(2, 17, 1, '2026-10-01', '2026-10-01', '', 0),
+(5, 15, 10, '2026-10-15', '2026-10-15', '', 1),
+(6, 15, 10, '2026-10-15', '2026-10-15', 'dikembalikan', 1),
+(7, 15, 3, '2026-10-15', '2026-10-22', 'dipinjam', 1),
+(8, 15, 10, '2026-10-15', '2026-10-22', 'dipinjam', 3),
+(9, 15, 4, '2026-10-15', '2026-10-22', 'dipinjam', 10),
+(10, 17, 5, '2026-10-15', '2026-10-15', 'dikembalikan', 1),
+(11, 17, 5, '2026-10-15', '2026-10-15', 'dikembalikan', 1),
+(12, 17, 10, '2026-10-15', '2026-10-15', 'dikembalikan', 20),
+(13, 17, 5, '2026-10-15', '2026-10-22', 'menunggu_persetujuan_pinjam', 1),
+(14, 17, 10, '2026-10-15', '2026-10-15', 'menunggu_persetujuan_kembali', 1);
 
 --
 -- Indexes for dumped tables
@@ -139,7 +158,7 @@ ALTER TABLE `buku`
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Constraints for dumped tables

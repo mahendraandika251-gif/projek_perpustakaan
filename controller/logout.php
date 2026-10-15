@@ -1,41 +1,23 @@
-<!-- proses logout/keluar dari halaman -->
 <?php
+// Memulai sesi
 session_start();
 
-// Hancurkan semua data sesi saat ini
-session_unset();
+// Menghapus semua variabel sesi
+$_SESSION = array();
+
+// Jika ingin menghapus cookie sesi juga (opsional, untuk keamanan ekstra)
+if (ini_get("session.use_cookies")) {
+    $params = session_get_cookie_params();
+    setcookie(session_name(), '', time() - 42000,
+        $params["path"], $params["domain"],
+        $params["secure"], $params["httponly"]
+    );
+}
+
+// Menghancurkan sesi
 session_destroy();
 
-// Variabel untuk menyimpan pesan
-$pesan_logout = "Anda berhasil keluar dari akun. Anda akan diarahkan ke halaman login.";
+// Mengarahkan kembali ke halaman login (sesuaikan path relatif halaman login Anda)
+header("Location: ../index.php"); // Contoh jika halaman login ada di luar folder view atau sesuaikan path-nya
+exit();
 ?>
-
-<!DOCTYPE html>
-<html lang="id">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Logout</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    </head>
-    <body>
-      <script>
-        document.addEventListener('DOMContentLoaded', function() {
-          Swal.fire({
-            icon: 'success',
-            title: 'Berhasil Logout!',
-            text: '<?= $pesan_logout; ?>',
-            showConfirmButton: false,
-            timer: 2000
-            
-          }).then(() => {
-            // Setelah popup ditutup, alihkan pengguna ke halaman index.php
-            window.location.href = "../index.php";
-            
-          });
-          
-        });
-        </script>
-       </body>
-    </html>
