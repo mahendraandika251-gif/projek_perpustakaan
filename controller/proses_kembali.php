@@ -1,6 +1,6 @@
 <?php
 // Memanggil file koneksi database
-require_once '../../models/m_koneksi.php';
+require_once '../models/m_koneksi.php';
 
 // Membuat instance dari class Koneksi
 $db = new Koneksi(); 
@@ -33,25 +33,25 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
             // Redirect kembali ke halaman transaksi admin dengan pesan sukses
             echo "<script>
                     alert('Pengembalian buku berhasil disetujui!');
-                    window.location.href = 'transaksi.php';
+                    window.location.href = '../view/view_admin/transaksi.php';
                   </script>";
             exit();
         } else {
             echo "<script>
                     alert('Gagal memperbarui database: " . $koneksi->error . "');
-                    window.location.href = 'transaksi.php';
+                    window.location.href = '../view/view_admin/transaksi.php';
                   </script>";
             exit();
         }
     } else {
         echo "<script>
                 alert('Data transaksi tidak ditemukan!');
-                window.location.href = 'transaksi.php';
+                window.location.href = '../view/view_admin/transaksi.php';
               </script>";
         exit();
     }
 } else {
-    header("Location: transaksi.php");
+    header("Location: ../view/view_admin/transaksi.php");
     exit();
 }
 ?>

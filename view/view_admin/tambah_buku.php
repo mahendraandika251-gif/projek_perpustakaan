@@ -133,46 +133,63 @@ if (isset($_POST['tambah_buku'])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
-            background-color: #f4f6f9;
+            background-color: #f8fafc;
+            color: #1e293b;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         .card {
-            border: none;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
         }
         .card-header {
-            background: linear-gradient(135deg, #0d6efd, #0b5ed7);
-            color: #ffffff;
-            border-top-left-radius: 12px !important;
-            border-top-right-radius: 12px !important;
-            padding: 18px 25px;
+            background: #ffffff;
+            color: #0f172a;
+            border-bottom: 1px solid #e2e8f0;
+            border-top-left-radius: 14px !important;
+            border-top-right-radius: 14px !important;
+            padding: 20px 25px;
         }
         .form-label {
             font-weight: 600;
-            color: #495057;
-            font-size: 0.9rem;
+            color: #475569;
+            font-size: 0.88rem;
         }
         .form-control, .form-select {
+            background-color: #ffffff;
+            border: 1px solid #cbd5e1;
+            color: #1e293b;
             border-radius: 8px;
             padding: 10px 14px;
-            border: 1px solid #ced4da;
         }
         .form-control:focus, .form-select:focus {
-            border-color: #0d6efd;
-            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+            background-color: #ffffff;
+            color: #1e293b;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.15);
+        }
+        .form-text {
+            color: #64748b !important;
         }
         .btn-primary {
+            background-color: #3b82f6;
+            border-color: #3b82f6;
             border-radius: 8px;
             padding: 10px 24px;
             font-weight: 600;
         }
+        .btn-primary:hover {
+            background-color: #2563eb;
+            border-color: #2563eb;
+        }
         .img-preview {
-            max-height: 140px;
+            max-height: 150px;
             border-radius: 8px;
-            border: 2px dashed #dee2e6;
+            border: 2px dashed #cbd5e1;
             object-fit: cover;
             display: none;
+            background-color: #f8fafc;
         }
     </style>
 </head>
@@ -193,8 +210,8 @@ if (isset($_POST['tambah_buku'])) {
 
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0 fs-5"><i class="fa-solid fa-book me-2"></i> Form Tambah Data Buku</h5>
-                    <span class="badge bg-light text-primary">Tabel: buku</span>
+                    <h5 class="mb-0 fs-5 fw-bold"><i class="fa-solid fa-book me-2 text-primary"></i> Form Tambah Data Buku</h5>
+                    <span class="badge bg-light text-secondary border">Tabel: buku</span>
                 </div>
                 <div class="card-body p-4">
                     <!-- Form Submit ke Halaman yang Sama (action="") -->
@@ -264,7 +281,7 @@ if (isset($_POST['tambah_buku'])) {
                         </div>
 
                         <div class="d-flex justify-content-end gap-2 pt-3 border-top">
-                            <button type="reset" class="btn btn-light text-secondary px-4" onclick="hidePreview()">
+                            <button type="reset" class="btn btn-light text-secondary px-4 border" onclick="hidePreview()">
                                 <i class="fa-solid fa-rotate-left me-1"></i> Reset
                             </button>
                             <button type="submit" name="tambah_buku" class="btn btn-primary px-4">

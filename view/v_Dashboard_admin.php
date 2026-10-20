@@ -1,3 +1,14 @@
+<?php
+// Memulai session
+session_start();
+
+// Mengambil data dari session login (menyesuaikan struktur database Anda)
+$username_admin = isset($_SESSION['username']) ? $_SESSION['username'] : 'Admin';
+$role_admin = isset($_SESSION['role']) ? $_SESSION['role'] : 'pustakawan';
+
+// Mengambil 2 huruf pertama dari username untuk inisial avatar secara otomatis
+$initials = strtoupper(substr($username_admin, 0, 2));
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -15,20 +26,56 @@
     body {
       display: flex;
       height: 100vh;
-      background-color: #ededf0;
+      background-color: #f4f6f9;
       color: #333;
+      overflow: hidden;
     }
 
     /* Sidebar Styling */
     .sidebar {
-      width: 250px;
-      background-color: #0f0c20;
+      width: 270px;
+      background: linear-gradient(180deg, #0f0c20 0%, #171330 100%);
       color: #fff;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 24px 16px;
+      padding: 24px 18px;
       flex-shrink: 0;
+      box-shadow: 4px 0 20px rgba(0, 0, 0, 0.08);
+      height: 100vh;
+    }
+
+    /* Logo Brand Perpustakaan */
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 4px 8px;
+      margin-bottom: 24px;
+    }
+
+    .brand-logo {
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(135deg, #92BDFF 0%, #3b82f6 100%);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      box-shadow: 0 4px 12px rgba(146, 189, 255, 0.3);
+    }
+
+    .brand-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+    }
+
+    .brand-subtitle {
+      font-size: 11px;
+      color: #92BDFF;
     }
 
     /* User Profile Section */
@@ -36,8 +83,11 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 32px;
-      padding: 0 8px;
+      margin-bottom: 24px;
+      padding: 12px;
+      background-color: rgba(255, 255, 255, 0.03);
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
     }
 
     .user-info {
@@ -47,20 +97,22 @@
     }
 
     .avatar {
-      width: 40px;
-      height: 40px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
-      background-color: #4a4e69;
+      background-color: #92BDFF;
+      color: #0f0c20;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: bold;
+      font-size: 13px;
       position: relative;
     }
 
     .online-badge {
-      width: 10px;
-      height: 10px;
+      width: 9px;
+      height: 9px;
       background-color: #2ec4b6;
       border-radius: 50%;
       position: absolute;
@@ -76,28 +128,41 @@
 
     .user-name {
       font-weight: 600;
-      font-size: 14px;
+      font-size: 13px;
       color: #ffffff;
+      text-transform: capitalize;
     }
 
     .user-role {
-      font-size: 12px;
-      color: #8d8d99;
+      font-size: 11px;
+      color: #92BDFF;
+      text-transform: uppercase;
     }
 
-    .purple-dot {
-      width: 8px;
-      height: 8px;
-      background-color: #8b5cf6;
+    .accent-dot {
+      width: 6px;
+      height: 6px;
+      background-color: #92BDFF;
       border-radius: 50%;
+      box-shadow: 0 0 8px #92BDFF;
     }
 
     /* Navigation Styling */
+    .nav-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #7b7b95;
+      margin-bottom: 10px;
+      padding-left: 8px;
+      font-weight: 600;
+    }
+
     .nav-list {
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
     }
 
     .nav-item {
@@ -105,77 +170,67 @@
       align-items: center;
       justify-content: space-between;
       padding: 12px 16px;
-      border-radius: 12px;
-      font-size: 14px;
-      color: #a0a0b0;
-      text-decoration: none; /* Menghilangkan garis bawah a href */
-      transition: all 0.2s ease;
+      border-radius: 10px;
+      font-size: 13.5px;
+      color: #b0b0c3;
+      text-decoration: none;
+      transition: all 0.25s ease;
       font-weight: 500;
+      cursor: pointer;
     }
 
     .nav-item:hover {
-      background-color: rgba(255, 255, 255, 0.05);
-      color: #ffffff;
+      background-color: rgba(146, 189, 255, 0.08);
+      color: #92BDFF;
+      transform: translateX(3px);
     }
 
     .nav-item.active {
-      background-color: #1a1633;
-      color: #ffffff;
+      background: linear-gradient(90deg, rgba(146, 189, 255, 0.15) 0%, rgba(146, 189, 255, 0.03) 100%);
+      color: #92BDFF;
       font-weight: 600;
+      border-left: 3px solid #92BDFF;
     }
 
-    /* Status Indicator Dots */
-    .dot-pink {
-      width: 8px;
-      height: 8px;
-      background-color: #ec4899;
+    .dot-blue {
+      width: 7px;
+      height: 7px;
+      background-color: #92BDFF;
       border-radius: 50%;
-    }
-
-    .dot-yellow {
-      width: 8px;
-      height: 8px;
-      background-color: #eab308;
-      border-radius: 50%;
+      box-shadow: 0 0 6px #92BDFF;
     }
 
     /* Bottom Menu Styling */
     .bottom-menu {
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      padding-top: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 14px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
     }
 
     .logout-item {
-      color: #ef4444;
+      color: #f87171;
     }
 
     .logout-item:hover {
       background-color: rgba(239, 68, 68, 0.1);
-      color: #f87171;
+      color: #ef4444;
     }
 
-    /* Main Content Styling */
+    /* Main Content Styling (Area Kanan menggunakan Iframe) */
     .main-content {
       flex: 1;
-      padding: 40px;
-      overflow-y: auto;
+      padding: 0;
+      overflow: hidden;
+      height: 100vh;
+      background-color: #f4f6f9;
     }
 
-    .content-page {
-      display: none;
-    }
-
-    .content-page.active {
-      display: block;
-    }
-
-    .content-page h1 {
-      font-size: 24px;
-      font-weight: 600;
-      color: #1f2937;
+    .content-frame {
+      width: 100%;
+      height: 100%;
+      border: none;
     }
   </style>
 </head>
@@ -184,79 +239,76 @@
   <!-- Sidebar -->
   <aside class="sidebar">
     <div>
+      <!-- Logo Perpustakaan -->
+      <div class="brand-section">
+        <div class="brand-logo">📚</div>
+        <div>
+          <div class="brand-title">E-Perpus</div>
+          <div class="brand-subtitle">Sistem Digital</div>
+        </div>
+      </div>
+
       <!-- User Profile -->
       <div class="profile-section">
         <div class="user-info">
           <div class="avatar">
-            JS
+            <?php echo htmlspecialchars($initials); ?>
             <span class="online-badge"></span>
           </div>
           <div class="user-details">
-            <span class="user-name">Juliana Silva</span>
-            <span class="user-role">@pustakawan</span>
+            <span class="user-name"><?php echo htmlspecialchars($username_admin); ?></span>
+            <span class="user-role"><?php echo htmlspecialchars($role_admin); ?></span>
           </div>
         </div>
-        <span class="purple-dot"></span>
+        <span class="accent-dot"></span>
       </div>
 
-      <!-- Navigation Menu dengan a href -->
+      <!-- Navigation Menu (Menggunakan target iframe agar langsung muncul di kanan) -->
+      <div class="nav-label">Menu Utama</div>
       <nav class="nav-list">
-        <a href="view_admin/data_anggota.php" class="nav-item" onclick="switchTab('data-anggota', this)">
+        <a href="view_admin/dashboard_buku.php" target="contentFrame" class="nav-item active" onclick="setActive(this)">
+          <span>Data Buku</span>
+          <span class="dot-blue"></span>
+        </a>
+        <a href="view_admin/data_anggota.php" target="contentFrame" class="nav-item" onclick="setActive(this)">
           <span>Data Anggota</span>
         </a>
-        <a href="view_admin/dashboard_buku.php" class="nav-item active" onclick="switchTab('data-buku', this)">
-          <span>Data Buku</span>
-        </a>
-        <a href="view_admin/transaksi.php" class="nav-item" onclick="switchTab('statistik', this)">
-          <span>transaksi</span>
-          <span class="dot-pink"></span>
-        </a>
-        <a href="#kategori-rak" class="nav-item" onclick="switchTab('kategori-rak', this)">
-          <span>Kategori Rak</span>
-        </a>
-        <a href="#program-baca" class="nav-item" onclick="switchTab('program-baca', this)">
-          <span>Program Baca</span>
-          <span class="dot-yellow"></span>
-        </a>
-        <a href="#anggota" class="nav-item" onclick="switchTab('anggota', this)">
-          <span>Anggota</span>
+        <a href="view_admin/transaksi.php" target="contentFrame" class="nav-item" onclick="setActive(this)">
+          <span>Transaksi</span>
         </a>
       </nav>
     </div>
 
-    <!-- Bottom Menu dengan a href -->
+    <!-- Bottom Menu -->
     <div class="bottom-menu">
-      <a href="#pengaturan" class="nav-item" onclick="switchTab('pengaturan', this)">
-        <span>Pengaturan</span>
-      </a>
-      <a href="../controller/logout.php" class="nav-item logout-item" onclick="switchTab('logout', this)">
+      <a href="../controller/logout.php" class="nav-item logout-item">
         <span>Keluar (Log Out)</span>
       </a>
     </div>
   </aside>
 
-  
+  <!-- Area Konten Utama di Sebelah Kanan (Iframe) -->
+  <main class="main-content">
+    <iframe name="contentFrame" src="view_admin/dashboard_buku.php" class="content-frame"></iframe>
+  </main>
 
-  <!-- JavaScript untuk Switch Halaman & URL Hash -->
+  <!-- JavaScript Sederhana untuk Mengatur Menu Aktif -->
   <script>
-    function switchTab(pageId, element) {
-      // Sembunyikan semua konten
-      const pages = document.querySelectorAll('.content-page');
-      pages.forEach(page => page.classList.remove('active'));
+    function setActive(element) {
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+        // Hapus dot biru dari menu lain
+        const dot = item.querySelector('.dot-blue');
+        if (dot) dot.remove();
+      });
 
-      // Tampilkan konten yang dipilih
-      const selectedPage = document.getElementById(pageId);
-      if (selectedPage) {
-        selectedPage.classList.add('active');
-      }
-
-      // Hapus kelas 'active' dari semua tombol navigasi
-      const navItems = document.querySelectorAll('.nav-item');
-      navItems.forEach(item => item.classList.remove('active'));
-
-      // Tambahkan kelas 'active' ke tombol a href yang diklik
-      if (element) {
-        element.classList.add('active');
+      element.classList.add('active');
+      
+      // Tambahkan kembali dot biru ke menu yang sedang aktif
+      if (!element.querySelector('.dot-blue')) {
+        const dotSpan = document.createElement('span');
+        dotSpan.className = 'dot-blue';
+        element.appendChild(dotSpan);
       }
     }
   </script>

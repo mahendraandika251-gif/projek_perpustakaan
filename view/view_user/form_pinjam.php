@@ -13,7 +13,7 @@ if (!isset($_SESSION['id_anggota'])) {
 
 // Ambil ID Buku dari parameter URL
 if (!isset($_GET['id_buku']) || empty($_GET['id_buku'])) {
-    header("Location: katalog_buku.php");
+    header("Location: ");
     exit();
 }
 
@@ -26,7 +26,7 @@ $result = $koneksi->query($query);
 if ($result->num_rows == 0) {
     echo "<script>
             alert('Buku tidak ditemukan!');
-            window.location.href = 'katalog_buku.php';
+            window.location.href = '';
           </script>";
     exit();
 }

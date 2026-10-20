@@ -1,6 +1,6 @@
 <?php
 // Memanggil file koneksi database
-require_once '../../models/m_koneksi.php';
+require_once '../models/m_koneksi.php';
 
 $db = new Koneksi(); 
 $koneksi = $db->koneksi; 
@@ -32,32 +32,32 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                 
                 echo "<script>
                         alert('Peminjaman buku berhasil disetujui!');
-                        window.location.href = 'transaksi.php';
+                        window.location.href = '../view/view_admin/transaksi.php';
                       </script>";
                 exit();
             } else {
                 echo "<script>
                         alert('Gagal menyetujui peminjaman: " . $koneksi->error . "');
-                        window.location.href = 'transaksi.php';
+                        window.location.href = '../view/view_admin/transaksi.php';
                       </script>";
                 exit();
             }
         } else {
             echo "<script>
                     alert('Status transaksi tidak valid untuk disetujui!');
-                    window.location.href = 'transaksi.php';
+                    window.location.href = '../view/view_admin/transaksi.php';
                   </script>";
             exit();
         }
     } else {
         echo "<script>
                 alert('Data transaksi tidak ditemukan!');
-                window.location.href = 'transaksi.php';
+                window.location.href = '../view/view_admin/transaksi.php';
               </script>";
         exit();
     }
 } else {
-    header("Location: transaksi.php");
+    header("Location: ../view/view_admin/transaksi.php");
     exit();
 }
 ?>
