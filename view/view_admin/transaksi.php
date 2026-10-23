@@ -90,6 +90,27 @@ $result = $koneksi->query($sql);
             color: var(--text-muted);
         }
 
+        /* Print Button Styling */
+        .btn-print {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #0f172a;
+            color: #ffffff;
+            padding: 10px 18px;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+        }
+
+        .btn-print:hover {
+            background-color: #1e293b;
+            box-shadow: 0 6px 16px rgba(15, 23, 42, 0.25);
+        }
+
         /* Filter Tab Bar */
         .filter-container {
             display: flex;
@@ -290,6 +311,50 @@ $result = $koneksi->query($sql);
             margin-bottom: 12px;
             color: #cbd5e1;
         }
+
+        /* Print Specific Styling */
+        .print-header {
+            display: none;
+        }
+
+        @media print {
+            body {
+                background-color: #ffffff;
+                padding: 10px;
+                color: #000000;
+            }
+            .page-header, .filter-container, .col-action, th:last-child, td:last-child, .btn-print {
+                display: none !important;
+            }
+            .print-header {
+                display: block;
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            .print-header h2 {
+                font-size: 18px;
+                font-weight: bold;
+            }
+            .print-header p {
+                font-size: 12px;
+                color: #555;
+            }
+            .card-table {
+                border: none;
+                box-shadow: none;
+            }
+            table {
+                border: 1px solid #cbd5e1;
+            }
+            th, td {
+                border: 1px solid #cbd5e1;
+                padding: 8px 10px;
+            }
+            thead {
+                background-color: #f1f5f9 !important;
+                -webkit-print-color-adjust: exact;
+            }
+        }
     </style>
 </head>
 <body>
@@ -300,6 +365,15 @@ $result = $koneksi->query($sql);
             <h2>Peminjaman & Pengembalian</h2>
             <p>Kelola persetujuan dan riwayat transaksi buku perpustakaan.</p>
         </div>
+        <button onclick="window.print()" class="btn-print">
+            <i class="fa-solid fa-print"></i> Cetak Laporan
+        </button>
+    </div>
+
+    <!-- Cetak Header Khusus Print -->
+    <div class="print-header">
+        <h2>LAPORAN TRANSAKSI PEMINJAMAN & PENGEMBALIAN BUKU</h2>
+        <p>Perpustakaan Digital — Dicetak pada: <?= date('d-m-Y H:i'); ?></p>
     </div>
 
     <!-- Filter Status Navigation -->

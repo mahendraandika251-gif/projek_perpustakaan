@@ -151,18 +151,7 @@ if (isset($_SESSION['login_error'])) {
                 </div>
 
 
-                <!-- Link Lupa Password -->
-                <div class="text-right pt-1">
-
-                    <button
-                        type="button"
-                        onclick="switchView('forgot')"
-                        class="text-xs italic text-gray-600 hover:text-black transition-colors focus:outline-none"
-                    >
-                        Lupa password??
-                    </button>
-
-                </div>
+                
 
 
                 <!-- Tombol Submit Login -->
@@ -197,7 +186,7 @@ if (isset($_SESSION['login_error'])) {
     </div>
 
 
-  >
+  
     <script>
 
         // Menampilkan / menyembunyikan password
