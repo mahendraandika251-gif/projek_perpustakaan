@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 15, 2026 at 05:46 PM
+-- Generation Time: Oct 23, 2026 at 10:01 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -74,8 +74,11 @@ INSERT INTO `buku` (`id_buku`, `judul`, `penulis`, `penerbit`, `tahun_terbit`, `
 (2, 'budi', 'goli', 'ghghg', '2014', 'Edukasi', 12, '1790186595_sleeping_bag_1.jpeg'),
 (3, 'hayu', 'yuh', 'tg', '2014', 'Non-Fiksi', 11, '1790187652_matras_5.jpeg'),
 (4, 'gigig', 'hfhfhf', 'bhchc', '2014', 'Edukasi', 2, 'default.jpg'),
-(5, 'huhu', 'ddhhdhdhd', 'hdhdhd', '2022', 'Sejarah', 677, '1790217204_Screenshot_2026_05_19_232120.png'),
-(10, 'ridvi gaming', 'ddhhdhdhd', 'anies', '2000', 'Edukasi', 1994, '');
+(5, 'huhu', 'ddhhdhdhd', 'hdhdhd', '2022', 'Sejarah', 676, '1790217204_Screenshot_2026_05_19_232120.png'),
+(10, 'ridvi gaming', 'ddhhdhdhd', 'anies', '2000', 'Edukasi', 1995, ''),
+(11, 'yaya gaming', 'yaya', 'yaya', '2011', 'Non-Fiksi', 200, '1792468742_Screenshot_2026_05_07_230520.png'),
+(12, 'titut', 'titi', 'tit', '2011', 'Teknologi', 12, '1792469121_matras_5.jpeg'),
+(13, 'jiyad gaming', 'jiyad', 'sangkur', '2013', 'Sejarah', 20, '1792469412_Screenshot_2026_05_19_232120.png');
 
 -- --------------------------------------------------------
 
@@ -108,8 +111,9 @@ INSERT INTO `transaksi` (`id_transaksi`, `id_anggota`, `id_buku`, `tanggal_pinja
 (10, 17, 5, '2026-10-15', '2026-10-15', 'dikembalikan', 1),
 (11, 17, 5, '2026-10-15', '2026-10-15', 'dikembalikan', 1),
 (12, 17, 10, '2026-10-15', '2026-10-15', 'dikembalikan', 20),
-(13, 17, 5, '2026-10-15', '2026-10-22', 'menunggu_persetujuan_pinjam', 1),
-(14, 17, 10, '2026-10-15', '2026-10-15', 'menunggu_persetujuan_kembali', 1);
+(13, 17, 5, '2026-10-15', '2026-10-20', 'menunggu_persetujuan_kembali', 1),
+(14, 17, 10, '2026-10-15', '2026-10-20', 'dikembalikan', 1),
+(15, 17, 10, '2026-10-20', '2026-10-27', 'menunggu_persetujuan_pinjam', 1);
 
 --
 -- Indexes for dumped tables
@@ -152,13 +156,13 @@ ALTER TABLE `anggota`
 -- AUTO_INCREMENT for table `buku`
 --
 ALTER TABLE `buku`
-  MODIFY `id_buku` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_buku` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Constraints for dumped tables
