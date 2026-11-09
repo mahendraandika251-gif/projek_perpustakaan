@@ -143,7 +143,7 @@ $result = $koneksi->query($sql);
                 <span class="text-secondary small">
                     Halo, <strong class="text-dark"><?= htmlspecialchars($nama_user); ?></strong>[cite: 6]
                 </span>
-                <a href="logout.php" class="btn btn-outline-danger btn-sm px-3 rounded-pill">Logout</a>
+                <a href="../../controller/logout.php" class="btn btn-outline-danger btn-sm px-3 rounded-pill">Logout</a>
             </div>
         </div>
     </div>
