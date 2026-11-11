@@ -382,13 +382,13 @@ $result = $koneksi->query($sql);
             <i class="fa-solid fa-list-ul"></i> Semua
         </a>
         <a href="transaksi.php?status=menunggu_pinjam" class="filter-btn <?= ($filter_status == 'menunggu_pinjam') ? 'active' : ''; ?>">
-            <i class="fa-solid fa-clock"></i> Acc Pinjam
+            <i class="fa-solid fa-clock"></i> Pinjamkan
         </a>
         <a href="transaksi.php?status=dipinjam" class="filter-btn <?= ($filter_status == 'dipinjam') ? 'active' : ''; ?>">
             <i class="fa-solid fa-book-open"></i> Dipinjam
         </a>
         <a href="transaksi.php?status=menunggu_kembali" class="filter-btn <?= ($filter_status == 'menunggu_kembali') ? 'active' : ''; ?>">
-            <i class="fa-solid fa-rotate-left"></i> Acc Kembali
+            <i class="fa-solid fa-rotate-left"></i> Kembalikan
         </a>
         <a href="transaksi.php?status=dikembalikan" class="filter-btn <?= ($filter_status == 'dikembalikan') ? 'active' : ''; ?>">
             <i class="fa-solid fa-circle-check"></i> Dikembalikan
@@ -445,7 +445,7 @@ $result = $koneksi->query($sql);
                             <td style="text-align: center;">
                                 <?php if ($row['status'] == 'menunggu_persetujuan_pinjam') : ?>
                                     <span class="badge-status badge-acc-pinjam">
-                                        <i class="fa-solid fa-hourglass-half"></i> Wait Acc
+                                        <i class="fa-solid fa-hourglass-half"></i> diproses
                                     </span>
                                 <?php elseif ($row['status'] == 'dipinjam') : ?>
                                     <span class="badge-status badge-dipinjam">
@@ -453,7 +453,7 @@ $result = $koneksi->query($sql);
                                     </span>
                                 <?php elseif ($row['status'] == 'menunggu_persetujuan_kembali') : ?>
                                     <span class="badge-status badge-acc-kembali">
-                                        <i class="fa-solid fa-arrow-rotate-left"></i> Wait Kembali
+                                        <i class="fa-solid fa-arrow-rotate-left"></i> menunggu diKembalikan
                                     </span>
                                 <?php elseif ($row['status'] == 'dikembalikan') : ?>
                                     <span class="badge-status badge-dikembalikan">
@@ -470,20 +470,20 @@ $result = $koneksi->query($sql);
                                     <a href="../../controller/proses_acc_pinjam.php?id=<?= $row['id_transaksi']; ?>" 
                                        class="btn-action btn-acc-pinjam" 
                                        onclick="return confirm('Setujui peminjaman buku ini?')">
-                                       <i class="fa-solid fa-check"></i> Acc Pinjam
+                                       <i class="fa-solid fa-check"></i> Pinjamkan
                                     </a>
                                 <?php elseif ($row['status'] == 'menunggu_persetujuan_kembali') : ?>
-                                    <a href="../../controller/proses_kembali.php?id=<?= $row['id_transaksi']; ?>" 
-                                       class="btn-action btn-acc-kembali" 
-                                       onclick="return confirm('Setujui pengembalian buku ini?')">
-                                       <i class="fa-solid fa-box-archive"></i> Acc Kembali
+                                    <!-- Diarahkan ke form input denda admin -->
+                                    <a href="form_kembali.php?id=<?= $row['id_transaksi']; ?>" 
+                                       class="btn-action btn-acc-kembali">
+                                       <i class="fa-solid fa-box-archive"></i> Kembali
                                     </a>
                                 <?php elseif ($row['status'] == 'dikembalikan') : ?>
                                     <button class="btn-action btn-done" disabled>
                                         <i class="fa-solid fa-lock"></i> Selesai
                                     </button>
                                 <?php else : ?>
-                                    <span style="font-size: 12px; color: var(--text-muted);">Aktif Dipinjam</span>
+                                    <span style="font-size: 12px; color: var(--text-muted);">Dipinjam</span>
                                 <?php endif; ?>
                             </td>
                         </tr>

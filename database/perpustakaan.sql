@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 23, 2026 at 10:01 PM
+-- Generation Time: Nov 11, 2026 at 07:36 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -42,11 +42,10 @@ CREATE TABLE `anggota` (
 --
 
 INSERT INTO `anggota` (`id_anggota`, `username`, `password`, `email`, `nisn`, `kelas`, `role`) VALUES
-(2, 'adel', '$2y$10$Lq9J8FSkG6DIjpT1OLkPbulERLuZV3ynIj.Q5TPonStWtydP1zes.', 'hugadgf@gmail.com', 0, '125v', 'user'),
 (5, 'mulyono', '$2y$10$p.pnAa3oBhfVLTe3KB.Qv.PFL1jSl.k4nbnVVZsuclsHqeZLkQE/q', 'mulyono@gmail.com', 1111, '12', 'admin'),
-(12, 'udin', '$2y$10$bgOv.S25gSUbz4ItCOBbPeWXr1a/O8f9dq7yteIlF6/C3fe6sMPaS', 'ans33@gmail.com', 87373, '12 rpl', 'admin'),
 (15, 'yaya', '$2y$10$2m8SSqFkSGphPsFKlIXHVeuvau4Orv7tVYXFlV/SVOzPRnyODSTMq', 'yaya@gmail.com', 816161, '12 rpl', 'admin'),
-(17, 'bayu', '$2y$10$7ngvSz6xBzm7Bi4dmC9w5eRXMAtePZ/MXDE4iogB9Zb1d7s4BLvMi', 'bayu@gmail.com', 86161616, '12 rpl', 'user');
+(19, 'yuyu', '$2y$10$KNzyaXslUwCDcTlfNkD87.mSRAUi6/wKCIu7khdZjctTyA9dDvlJ2', 'hasip89797@gmail.com', 83636, '12 rpl 3', 'user'),
+(20, 'hshs', '$2y$12$wYC5xAHHYLrwsknhSK4DWeAcAdj.T/Idr3jKAtUvoXxvu9utzgOJa', 'huhu@gmail.com', 0, '', 'user');
 
 -- --------------------------------------------------------
 
@@ -70,15 +69,11 @@ CREATE TABLE `buku` (
 --
 
 INSERT INTO `buku` (`id_buku`, `judul`, `penulis`, `penerbit`, `tahun_terbit`, `kategori`, `stok`, `foto`) VALUES
-(1, 'cerita', 'juji', 'juji', '2020', 'cerita', 20, ''),
-(2, 'budi', 'goli', 'ghghg', '2014', 'Edukasi', 12, '1790186595_sleeping_bag_1.jpeg'),
-(3, 'hayu', 'yuh', 'tg', '2014', 'Non-Fiksi', 11, '1790187652_matras_5.jpeg'),
-(4, 'gigig', 'hfhfhf', 'bhchc', '2014', 'Edukasi', 2, 'default.jpg'),
-(5, 'huhu', 'ddhhdhdhd', 'hdhdhd', '2022', 'Sejarah', 676, '1790217204_Screenshot_2026_05_19_232120.png'),
-(10, 'ridvi gaming', 'ddhhdhdhd', 'anies', '2000', 'Edukasi', 1995, ''),
-(11, 'yaya gaming', 'yaya', 'yaya', '2011', 'Non-Fiksi', 200, '1792468742_Screenshot_2026_05_07_230520.png'),
-(12, 'titut', 'titi', 'tit', '2011', 'Teknologi', 12, '1792469121_matras_5.jpeg'),
-(13, 'jiyad gaming', 'jiyad', 'sangkur', '2013', 'Sejarah', 20, '1792469412_Screenshot_2026_05_19_232120.png');
+(14, 'Pemrograman Web dengan PHP dan MySQL', 'Budi Raharjo', 'Informatika', '2023', 'Teknologi', 12, '0c9cddcf-b6b1-400d-87a8-0dd3d3b90179.jpg'),
+(15, 'Belajar Dasar Pemrograman JavaScript', 'Rinrin Krismayanti', 'Elex Media Komputindo', '2022', 'Teknologi', 7, '78e9d47e-cae7-4878-bded-f28e2af09dfa.jpg'),
+(16, 'Algoritma dan Struktur Data', 'Rinaldi Munir', 'Informatika', '2021', 'Pendidikan', 14, '41f8b96b-dbd4-4e6f-98df-42bfaffe627f.jpg'),
+(17, 'Desain Antarmuka Pengguna (UI/UX)', 'Andika Pratama', 'Andi Publisher', '2024', 'Desain', 9, 'b6680eb3-0bcb-4860-bc2f-e799ea96affe.jpg\r\n'),
+(19, 'Basis Data Relasional Moder', 'Fajar Astut', 'Deepublis', '2023', 'Teknologi', 8, '1793998442_images.jpg');
 
 -- --------------------------------------------------------
 
@@ -93,27 +88,23 @@ CREATE TABLE `transaksi` (
   `tanggal_pinjam` date NOT NULL,
   `tanggal_kembali` date DEFAULT NULL,
   `status` enum('menunggu_persetujuan_pinjam','dipinjam','menunggu_persetujuan_kembali','dikembalikan') NOT NULL DEFAULT 'menunggu_persetujuan_pinjam',
-  `jumlah` int(2) NOT NULL
+  `jumlah` int(2) NOT NULL,
+  `denda` int(11) DEFAULT 0,
+  `status_denda` enum('belum_lunas','lunas') DEFAULT 'lunas'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `transaksi`
 --
 
-INSERT INTO `transaksi` (`id_transaksi`, `id_anggota`, `id_buku`, `tanggal_pinjam`, `tanggal_kembali`, `status`, `jumlah`) VALUES
-(1, 15, 10, '2026-10-01', '2026-10-14', '', 0),
-(2, 17, 1, '2026-10-01', '2026-10-01', '', 0),
-(5, 15, 10, '2026-10-15', '2026-10-15', '', 1),
-(6, 15, 10, '2026-10-15', '2026-10-15', 'dikembalikan', 1),
-(7, 15, 3, '2026-10-15', '2026-10-22', 'dipinjam', 1),
-(8, 15, 10, '2026-10-15', '2026-10-22', 'dipinjam', 3),
-(9, 15, 4, '2026-10-15', '2026-10-22', 'dipinjam', 10),
-(10, 17, 5, '2026-10-15', '2026-10-15', 'dikembalikan', 1),
-(11, 17, 5, '2026-10-15', '2026-10-15', 'dikembalikan', 1),
-(12, 17, 10, '2026-10-15', '2026-10-15', 'dikembalikan', 20),
-(13, 17, 5, '2026-10-15', '2026-10-20', 'menunggu_persetujuan_kembali', 1),
-(14, 17, 10, '2026-10-15', '2026-10-20', 'dikembalikan', 1),
-(15, 17, 10, '2026-10-20', '2026-10-27', 'menunggu_persetujuan_pinjam', 1);
+INSERT INTO `transaksi` (`id_transaksi`, `id_anggota`, `id_buku`, `tanggal_pinjam`, `tanggal_kembali`, `status`, `jumlah`, `denda`, `status_denda`) VALUES
+(16, 19, 17, '2026-11-06', '2026-11-06', 'dikembalikan', 1, 0, 'lunas'),
+(17, 19, 15, '2026-11-06', '2026-11-11', 'dikembalikan', 1, 1000, 'lunas'),
+(18, 19, 19, '2026-11-06', '2026-11-11', 'dikembalikan', 1, 19000, 'belum_lunas'),
+(19, 19, 16, '2026-11-08', '2026-11-11', 'dikembalikan', 1, 1000, 'belum_lunas'),
+(20, 19, 17, '2026-11-10', '2026-11-11', 'dikembalikan', 1, 1000, 'lunas'),
+(21, 19, 15, '2026-11-10', '2026-11-10', 'dikembalikan', 5, 0, 'lunas'),
+(22, 19, 19, '2026-11-11', '2026-11-18', 'dipinjam', 1, 0, 'lunas');
 
 --
 -- Indexes for dumped tables
@@ -150,19 +141,19 @@ ALTER TABLE `transaksi`
 -- AUTO_INCREMENT for table `anggota`
 --
 ALTER TABLE `anggota`
-  MODIFY `id_anggota` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id_anggota` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `buku`
 --
 ALTER TABLE `buku`
-  MODIFY `id_buku` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_buku` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- Constraints for dumped tables

@@ -1,12 +1,12 @@
 <?php
-// Memulai sesi untuk mengambil data login user[cite: 6]
+// Memulai sesi untuk mengambil data login user
 session_start();
 require_once '../../models/m_koneksi.php';
 
 $db = new Koneksi(); 
 $koneksi = $db->koneksi; 
 
-// Validasi apakah user sudah login[cite: 6]
+// Validasi apakah user sudah login
 if (!isset($_SESSION['data']['id_anggota'])) {
     echo "<script>alert('Silakan login terlebih dahulu!'); window.location='../../index.php';</script>";
     exit;
@@ -15,7 +15,7 @@ if (!isset($_SESSION['data']['id_anggota'])) {
 $id_anggota = $_SESSION['data']['id_anggota'];
 $nama_user  = $_SESSION['data']['username'];
 
-// Query untuk mengambil seluruh riwayat transaksi (baik dipinjam maupun dikembalikan) milik user yang sedang login[cite: 6]
+// Query untuk mengambil seluruh riwayat transaksi beserta denda dan status denda
 $sql = "SELECT transaksi.*, buku.judul, buku.penulis 
         FROM transaksi 
         JOIN buku ON transaksi.id_buku = buku.id_buku 
@@ -141,7 +141,7 @@ $result = $koneksi->query($sql);
 
             <div class="d-flex align-items-center gap-3">
                 <span class="text-secondary small">
-                    Halo, <strong class="text-dark"><?= htmlspecialchars($nama_user); ?></strong>[cite: 6]
+                    Halo, <strong class="text-dark"><?= htmlspecialchars($nama_user); ?></strong>
                 </span>
                 <a href="../../controller/logout.php" class="btn btn-outline-danger btn-sm px-3 rounded-pill">Logout</a>
             </div>
@@ -153,7 +153,7 @@ $result = $koneksi->query($sql);
     <div class="card-custom">
         <div class="card-header-custom">
             <h4 class="fw-bold text-dark mb-1">Riwayat (History) Peminjaman Buku</h4>
-            <p class="text-secondary small mb-0">Berikut adalah daftar seluruh riwayat transaksi peminjaman buku yang pernah Anda lakukan[cite: 6].</p>
+            <p class="text-secondary small mb-0">Berikut adalah daftar seluruh riwayat transaksi peminjaman buku beserta informasi denda yang pernah Anda lakukan.</p>
         </div>
         <div class="card-body p-0">
             <div class="table-responsive">
@@ -166,7 +166,9 @@ $result = $koneksi->query($sql);
                             <th class="text-center">Jumlah</th>
                             <th class="text-center">Tanggal Pinjam</th>
                             <th class="text-center">Tanggal Kembali</th>
-                            <th class="text-center" style="width: 140px;">Status</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-center">Denda</th>
+                            <th class="text-center" style="width: 140px;">Status Denda</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -197,14 +199,26 @@ $result = $koneksi->query($sql);
                                         <span class="badge bg-secondary px-2.5 py-1.5 fw-semibold"><?= htmlspecialchars($row['status']); ?></span>
                                     <?php endif; ?>
                                 </td>
+                                <td class="text-center fw-semibold text-danger">
+                                    <?= ($row['denda'] > 0) ? 'Rp ' . number_format($row['denda'], 0, ',', '.') : '<span class="text-muted">Rp 0</span>'; ?>
+                                </td>
+                                <td class="text-center">
+                                    <?php if (strtolower($row['status_denda']) == 'belum_lunas') : ?>
+                                        <span class="badge bg-danger px-2.5 py-1.5 fw-semibold">Belum Lunas</span>
+                                    <?php elseif (strtolower($row['status_denda']) == 'lunas') : ?>
+                                        <span class="badge bg-success px-2.5 py-1.5 fw-semibold">Lunas</span>
+                                    <?php else : ?>
+                                        <span class="badge bg-secondary px-2.5 py-1.5 fw-semibold"><?= htmlspecialchars($row['status_denda']); ?></span>
+                                    <?php endif; ?>
+                                </td>
                             </tr>
                         <?php 
                             }
                         } else { 
                         ?>
                             <tr>
-                                <td colspan="7" class="text-center text-secondary py-5">
-                                    <p class="fw-medium mb-0">Belum ada riwayat peminjaman buku[cite: 6].</p>
+                                <td colspan="9" class="text-center text-secondary py-5">
+                                    <p class="fw-medium mb-0">Belum ada riwayat peminjaman buku.</p>
                                 </td>
                             </tr>
                         <?php } ?>
